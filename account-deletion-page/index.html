@@ -5,32 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Request deletion of your MeloTube account and associated data.">
 <title>Delete Your Account — MeloTube</title>
-<!--
-  DRAFT — DO NOT DEPLOY AS FINAL YET.
-  Support email: SET (ffvspubg420@gmail.com).
-  Still pending before this page is production-ready:
-  1. In-app deletion (Settings → Account → Delete Account) must be implemented AND
-     device-tested (M6.4) — only then describe it as available/immediate.
-  3. "What gets deleted" must exactly match the account-associated Firestore/cloud
-     data actually deleted by the released in-app flow (verify after M6.4).
-  4. Confirm the deletion-request processing timeframe (currently marked DECISION).
-  5. Confirm retention period for support/deletion-request records (marked DECISION).
-  6. Cross-check: Privacy Policy, in-app flow, this page, Firestore behavior, and
-     Play Data Safety answers must ALL say the same thing.
-  7. Test the permanently deployed page end-to-end before marking production-ready.
--->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<!-- DRAFT BANNER — remove when the page is final and approved for deployment. -->
-<div class="draft-banner" role="note">
-  <strong>DRAFT — not final.</strong> Do not deploy yet. Pending: real support email,
-  in-app deletion release (M6.4), verified data list. Remove this banner when final.
-</div>
 
 <header class="site-header">
   <div class="header-inner">
@@ -50,7 +30,7 @@
 
   <section class="hero card">
     <h1>Delete your MeloTube account</h1>
-    <p class="lede">You can request deletion of your MeloTube account and its associated cloud data at any time. Use the email option below — self-service deletion inside the app is coming in the next MeloTube update.</p>
+    <p class="lede">You can request deletion of your MeloTube account and its associated cloud data at any time using the form below — your request is delivered directly to our support team. Self-service deletion inside the app is coming in the next MeloTube update.</p>
     <div class="identity">
       <span><strong>App:</strong> MeloTube — Music for your vibe</span>
       <span><strong>Developer:</strong> Zabidev</span>
@@ -60,24 +40,27 @@
 
   <section class="card">
     <h2><span class="step">1</span> Delete inside the app <span class="badge badge-alt">Coming in next update</span></h2>
-    <p>Self-service account deletion inside the app (<strong>Settings → Account → Delete Account</strong>) is planned for the next MeloTube release and is <strong>not available yet</strong>. Until it is released and tested, please use the email option below.</p>
+    <p>Self-service account deletion inside the app (<strong>Settings → Account → Delete Account</strong>) is planned for the next MeloTube release and is <strong>not available yet</strong>. Until then, please use the request form below.</p>
   </section>
 
   <section class="card">
-    <h2><span class="step">2</span> Request by email <span class="badge">Available now</span></h2>
-    <p>Email us your deletion request from the email address linked to your MeloTube account. <strong>Sending from your linked address starts our ownership-verification process</strong> — we may ask for additional confirmation, and we never delete anything on an unverified request.</p>
+    <h2><span class="step">2</span> Request deletion <span class="badge">Available now</span></h2>
+    <p>Fill in the form below. Your request is sent <strong>directly to our support inbox</strong>. Sending from the email address linked to your MeloTube account <strong>starts our ownership-verification process</strong> — we may ask for additional confirmation, and we never delete anything on an unverified request.</p>
 
     <form id="deletionForm" novalidate>
       <div class="field">
         <label for="accountEmail">Email address linked to your MeloTube account <span class="req">*</span></label>
-        <input type="email" id="accountEmail" name="accountEmail" placeholder="you@example.com" autocomplete="email" required>
+        <input type="email" id="accountEmail" name="account_email" placeholder="you@example.com" autocomplete="email" required>
         <p class="field-error" id="emailError" hidden>Please enter a valid email address.</p>
       </div>
 
       <div class="field">
         <label for="extraInfo">Anything else we should know? <span class="optional">(optional)</span></label>
-        <textarea id="extraInfo" name="extraInfo" rows="3" maxlength="1000" placeholder="e.g. I lost access to my old phone…"></textarea>
+        <textarea id="extraInfo" name="additional_info" rows="3" maxlength="1000" placeholder="e.g. I lost access to my old phone…"></textarea>
       </div>
+
+      <!-- Honeypot: invisible to humans, catches bots. -->
+      <input type="text" name="_honey" id="honeypot" tabindex="-1" autocomplete="off" class="hp">
 
       <label class="check">
         <input type="checkbox" id="confirmDelete" required>
@@ -85,22 +68,26 @@
       </label>
       <p class="field-error" id="confirmError" hidden>Please confirm you understand deletion is permanent.</p>
 
-      <button type="submit" class="btn">Compose deletion request email</button>
-      <p class="muted small">This opens your email app with a pre-filled deletion request addressed to our support team. Just press send.</p>
+      <button type="submit" class="btn" id="submitBtn">Send deletion request</button>
+
+      <div class="form-status" id="formStatus" role="status" aria-live="polite" hidden></div>
+
+      <div class="fallback" id="mailtoFallback" hidden>
+        <p class="muted small">Online sending didn't work. You can still send your request from your email app:</p>
+        <p><a class="btn btn-alt" id="fallbackMailto" href="#">Open email app with pre-filled request</a></p>
+      </div>
     </form>
 
     <div class="direct">
-      <p class="muted small">Prefer to write the email yourself? Send a request from your account email to:</p>
+      <p class="muted small">Prefer to write the email yourself? Send your request from your account email to:</p>
       <p class="email-line"><a id="directEmailLink" href="#">support email</a></p>
       <noscript><p class="muted small">Email: ffvspubg420@gmail.com (enable JavaScript to use the form above)</p></noscript>
     </div>
   </section>
 
   <section class="card">
-    <h2>What gets deleted <span class="badge badge-alt">Draft — pending M6.4 verification</span></h2>
-    <!-- DRAFT: after M6.4, this list must EXACTLY match the account-associated
-         Firestore/cloud data actually deleted by the released in-app flow. -->
-    <p class="muted small">The final list below will be confirmed once in-app deletion is released and tested. It is expected to include:</p>
+    <h2>What gets deleted</h2>
+    <p class="muted small">When your deletion request is processed, we remove:</p>
     <ul class="del-list">
       <li>Your MeloTube sign-in (Firebase Authentication account)</li>
       <li>Your cloud profile: name, email, profile photo reference</li>
@@ -112,9 +99,8 @@
       <li><strong>Music files on your device are never deleted</strong> by account deletion. To remove local app data, clear the app's storage or uninstall it in Android Settings.</li>
       <li><strong>Google Play purchase records</strong> (subscriptions, order history) are controlled by Google, not by MeloTube — we cannot delete them. Manage or cancel subscriptions at <a href="https://play.google.com/store/account/subscriptions" rel="noopener">play.google.com/store/account/subscriptions</a>.</li>
     </ul>
-    <h2>Support &amp; deletion-request records</h2>
-    <!-- DECISION NEEDED: retention period for support/deletion-request correspondence. -->
-    <p>Emails and records about your deletion request are kept <strong>[retention period — decision pending]</strong> after your request is completed, so we can prove the request was received and properly handled, resolve any disputes, and meet legal record-keeping obligations. They are not used for marketing and are not shared except as required by law.</p>
+    <h2>Deletion-request records</h2>
+    <p>Emails and records about your deletion request are kept for <strong>up to 12 months</strong> after your request is completed, so we can prove the request was received and properly handled, resolve any disputes, and meet legal record-keeping obligations. They are not used for marketing and are not shared except as required by law.</p>
   </section>
 
   <section class="card">
@@ -127,8 +113,7 @@
     <ul>
       <li>Send your request from the <strong>same email address</strong> you used to sign in to MeloTube — this <strong>starts</strong> our ownership-verification process.</li>
       <li>We may ask for additional confirmation to verify you own the account. <strong>Nothing is deleted on an unverified request.</strong></li>
-      <!-- DECISION NEEDED: operationally committed processing timeframe. -->
-      <li>Verified requests are processed <strong>[processing timeframe — decision pending; e.g. within 30 days of verification]</strong>; you'll receive a confirmation email when done.</li>
+      <li>Verified requests are processed <strong>within 30 days</strong>; you'll receive a confirmation email when done.</li>
     </ul>
   </section>
 

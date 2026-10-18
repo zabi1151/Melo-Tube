@@ -47,13 +47,6 @@ a:hover { color: #ffb3b0; }
 }
 
 .container { max-width: 780px; margin: 0 auto; padding: 28px 20px 0; }
-
-/* DRAFT banner — remove when the page is final and approved for deployment. */
-.draft-banner {
-  background: #fbbf24; color: #1f2937;
-  text-align: center; font-size: .85rem; padding: 10px 16px; line-height: 1.5;
-}
-.draft-banner strong { font-weight: 700; }
 .card {
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -127,6 +120,24 @@ h2 { font-size: 1.18rem; margin-bottom: 14px; display: flex; align-items: center
 
 .direct { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--card-border); }
 .email-line { font-size: 1.05rem; font-weight: 600; margin-top: 6px; overflow-wrap: anywhere; }
+
+/* Honeypot field: invisible to humans. */
+.hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* Form submission status messages. */
+.form-status { display: none; border-radius: 12px; padding: 14px 16px; margin-top: 16px; font-size: .92rem; }
+.form-status.show { display: block; }
+.form-status.sending { background: rgba(96,165,250,.1); border: 1px solid rgba(96,165,250,.35); color: #bcd6ff; }
+.form-status.success { background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.4); color: #a7f3d0; }
+.form-status.error { background: rgba(242,72,67,.1); border: 1px solid rgba(242,72,67,.4); color: #ffb3b0; }
+
+.fallback { margin-top: 14px; }
+.btn-alt {
+  display: inline-block; text-align: center; text-decoration: none;
+  background: transparent; border: 1px solid rgba(242,72,67,.55); color: #ff9d99;
+  box-shadow: none; width: auto; padding: 12px 20px; font-size: .95rem;
+}
+.btn:disabled { opacity: .6; cursor: wait; transform: none; }
 
 .page-footer { text-align: center; padding: 26px 10px 0; color: var(--muted); }
 .page-footer p { margin-bottom: 8px; }
