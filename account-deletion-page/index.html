@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Request deletion of your MeloTube account and associated data. In-app and email options.">
+<title>Delete Your Account — MeloTube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18.5A2.5 2.5 0 1 1 6.5 16c.54 0 1.04.17 1.45.46V7l10-2.5V15a2.5 2.5 0 1 1-1.5-2.29V6.7L9 8.58v9.92z" fill="#F24843"/>
+        </svg>
+      </span>
+      <span class="brand-name">MeloTube</span>
+    </div>
+    <span class="header-tag">Account &amp; Data Deletion</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero card">
+    <h1>Delete your MeloTube account</h1>
+    <p class="lede">You can delete your MeloTube account and its associated cloud data at any time — directly inside the app, or by email if you no longer have the app installed. This page explains both options, what gets deleted, and what is kept.</p>
+    <div class="identity">
+      <span><strong>App:</strong> MeloTube — Music for your vibe</span>
+      <span><strong>Developer:</strong> Zabidev</span>
+      <span><strong>Android package:</strong> com.zabidev.melotube</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">1</span> Delete inside the app <span class="badge">Fastest</span></h2>
+    <ol class="steps">
+      <li>Open <strong>MeloTube</strong> on your Android device</li>
+      <li>Go to <strong>Settings → Account</strong></li>
+      <li>Tap <strong>Delete Account</strong> and confirm</li>
+    </ol>
+    <p class="muted">In-app deletion is immediate and self-service: your cloud data is removed, your sign-in is revoked, and the app returns to its signed-out state.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span> Request by email <span class="badge badge-alt">No app needed</span></h2>
+    <p>If you uninstalled the app or can't open it, email us your deletion request. <strong>For your security, we can only process requests sent from the email address linked to your MeloTube account</strong> — this is how we verify you own the account.</p>
+
+    <form id="deletionForm" novalidate>
+      <div class="field">
+        <label for="accountEmail">Email address linked to your MeloTube account <span class="req">*</span></label>
+        <input type="email" id="accountEmail" name="accountEmail" placeholder="you@example.com" autocomplete="email" required>
+        <p class="field-error" id="emailError" hidden>Please enter a valid email address.</p>
+      </div>
+
+      <div class="field">
+        <label for="extraInfo">Anything else we should know? <span class="optional">(optional)</span></label>
+        <textarea id="extraInfo" name="extraInfo" rows="3" maxlength="1000" placeholder="e.g. I lost access to my old phone…"></textarea>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="confirmDelete" required>
+        <span>I understand that account deletion is <strong>permanent</strong> and my MeloTube cloud data will be removed.</span>
+      </label>
+      <p class="field-error" id="confirmError" hidden>Please confirm you understand deletion is permanent.</p>
+
+      <button type="submit" class="btn">Compose deletion request email</button>
+      <p class="muted small">This opens your email app with a pre-filled deletion request addressed to our support team. Just press send.</p>
+    </form>
+
+    <div class="direct">
+      <p class="muted small">Prefer to write the email yourself? Send a request from your account email to:</p>
+      <p class="email-line"><a id="directEmailLink" href="#">support email</a></p>
+      <noscript><p class="muted small">Email: YOUR_SUPPORT_EMAIL_HERE (enable JavaScript to use the form above)</p></noscript>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>What gets deleted</h2>
+    <ul class="del-list">
+      <li>Your MeloTube sign-in (Firebase Authentication account)</li>
+      <li>Your cloud profile: name, email, profile photo reference</li>
+      <li>Your synced preferences (theme, appearance, app settings)</li>
+      <li>Your Premium entitlement metadata held by MeloTube</li>
+    </ul>
+    <h2>What is kept or not affected</h2>
+    <ul class="keep-list">
+      <li><strong>Music files on your device are never deleted</strong> by account deletion. To remove local app data, clear the app's storage or uninstall it in Android Settings.</li>
+      <li><strong>Google Play purchase records</strong> (subscriptions, order history) are controlled by Google, not by MeloTube — we cannot delete them. Manage or cancel subscriptions at <a href="https://play.google.com/store/account/subscriptions" rel="noopener">play.google.com/store/account/subscriptions</a>.</li>
+      <li>Support correspondence about your request may be kept as needed to resolve it.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Before you delete — Premium users</h2>
+    <p class="warn"><strong>Deleting your MeloTube account does not automatically cancel an active Google Play subscription.</strong> If you have an active Premium subscription, cancel it separately in the Google Play Store (Profile → Payments &amp; subscriptions → Subscriptions) to avoid future charges.</p>
+  </section>
+
+  <section class="card">
+    <h2>How requests are verified &amp; processed</h2>
+    <ul>
+      <li>Requests must come from the <strong>same email address</strong> you used to sign in to MeloTube — this verifies account ownership.</li>
+      <li>If we can't match the email to an account, we'll reply asking for verification; we never delete on unverified requests.</li>
+      <li>Verified requests are processed within <strong>30 days</strong>; you'll receive a confirmation email when done.</li>
+      <li>In-app deletion takes effect immediately.</li>
+    </ul>
+  </section>
+
+  <footer class="page-footer">
+    <p>MeloTube • Music for your vibe • © 2026 Zabidev. All rights reserved.</p>
+    <p class="muted small">Effective: October 18, 2026 • This page is the official account-deletion resource for the MeloTube Android app (com.zabidev.melotube).</p>
+  </footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
