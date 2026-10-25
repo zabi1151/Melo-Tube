@@ -26,11 +26,11 @@
 <div class="container">
 
 <h1>Privacy Policy — MeloTube</h1>
-<p class="subtitle"><strong>Effective date:</strong> October 18, 2026 &nbsp;•&nbsp; <strong>Last updated:</strong> October 18, 2026</p>
+<p class="subtitle"><strong>Effective date:</strong> October 18, 2026 &nbsp;•&nbsp; <strong>Last updated:</strong> October 25, 2026</p>
 
 <p>MeloTube ("we", "our", "us") is a music discovery and playback app for Android, developed by <strong>Zabidev</strong> ("Music for your vibe"). This Privacy Policy explains what information the app collects, how it is used, and the choices you have. By using MeloTube, you agree to this policy.</p>
 
-<div class="note"><strong>Short version:</strong> You can use MeloTube without creating an account. Your playlists, favorites and listening history are stored on your device. If you choose to sign in with Google, we store basic profile information to sync your preferences. We show ads to free users (via Google AdMob) and process Premium upgrades through Google Play. We never sell your personal data.</div>
+<div class="note"><strong>Short version:</strong> You can use MeloTube without creating an account. Your playlists, favorites and listening history are stored on your device. If you choose to sign in with Google, we store only a basic Firebase profile (name, email, profile photo reference). Your playlists, favorites and listening history are never synced — they stay on your device only. We show ads to free users (via Google AdMob) and process Premium upgrades through Google Play. We never sell your personal data.</div>
 
 <h2>1. Information we collect</h2>
 
@@ -43,7 +43,7 @@
 <h3 style="font-size:1.05rem;margin:16px 0 8px;">b) Information stored on your device</h3>
 <ul>
 <li>Playlists, favorites, listening history, queue, downloads, app settings, theme and appearance choices. This data stays in the app's local database on your device.</li>
-<li>If you are signed in, a copy of your preferences (e.g. theme, settings) and non-sensitive account metadata may be synced to your private cloud record so your experience is consistent.</li>
+<li>If you are signed in, only a basic profile (name, email, profile photo reference) and your Premium entitlement record are stored in the cloud (Firebase). Your playlists, favorites, listening history, queue, downloads and app settings are never synced — they stay on your device only.</li>
 <li>Downloaded audio files are stored on your device storage. Only tracks the content provider has authorized for download can be downloaded.</li>
 </ul>
 
@@ -58,7 +58,7 @@
 <ul>
 <li><strong>Music / audio files (READ_MEDIA_AUDIO):</strong> To find and play music files already stored on your device (Local Music). Your files are never uploaded anywhere.</li>
 <li><strong>Notifications (POST_NOTIFICATIONS):</strong> To show playback controls (play/pause/next) in the notification shade and on the lock screen.</li>
-<li><strong>Internet:</strong> To search and stream music from licensed providers, load artwork, sign in, sync data and serve ads.</li>
+<li><strong>Internet:</strong> To search and stream music from licensed providers, load artwork, sign in, verify Premium entitlement and serve ads.</li>
 <li><strong>Advertising ID:</strong> To serve ads to free users.</li>
 </ul>
 <p>You can deny optional permissions and continue using the rest of the app. The app never asks for contacts, location, camera or microphone access.</p>
@@ -82,7 +82,7 @@
 <p>We also use these third-party services, which process data under their own policies:</p>
 <ul>
 <li><strong>Google AdMob</strong> (ads) — <a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
-<li><strong>Firebase Authentication &amp; Cloud Firestore</strong> (optional sign-in, preference sync) — <a href="https://firebase.google.com/support/privacy">Firebase Privacy</a></li>
+<li><strong>Firebase Authentication &amp; Cloud Firestore</strong> (optional sign-in; basic profile and Premium entitlement only — library data is never synced) — <a href="https://firebase.google.com/support/privacy">Firebase Privacy</a></li>
 <li><strong>Google Play Billing</strong> (Premium purchases) — payments are processed by Google; we never see or store your card details.</li>
 <li><strong>Google User Messaging Platform (UMP)</strong> (advertising consent).</li>
 </ul>
@@ -105,10 +105,12 @@
 
 <h2>7. Data retention &amp; deletion</h2>
 <ul>
-<li>Local app data (playlists, favorites, history, downloads) stays on your device until you clear the app's data, uninstall the app, or delete it in-app.</li>
+<li>Local app data (playlists, favorites, history, downloads) stays on your device until you clear the app's data, uninstall the app, or delete your account in-app.</li>
 <li>Signing out does <strong>not</strong> delete your local playlists, favorites or settings.</li>
-<li>Your cloud record (if you signed in) is tied to your Google account. To request deletion of your account data, use the in-app Account settings or email us at the address below; we will delete it within 30 days.</li>
-<li>Purchase records are retained as required by Google Play and tax law.</li>
+<li><strong>Account deletion (in-app, live):</strong> MeloTube → Settings → Account → Delete Account, after re-authentication and two-stage confirmation, permanently deletes: your Firebase Authentication account; your cloud profile (<code>users/{uid}</code>); your Premium entitlement record (<code>users/{uid}/entitlement/current</code>); purchase-token bindings (<code>purchaseTokens</code>); and your local app data on the device (favorites, playlists, listening and search history, playback queue, downloads made inside the app, and cached Premium state). No second request is needed for these items.</li>
+<li><strong>Not deleted by account deletion:</strong> your Google Play subscription itself (Google-side — deleting your MeloTube account does <strong>not</strong> automatically cancel it; manage or cancel it separately in Google Play); music files stored locally on your phone outside the app's downloads; and provider-owned catalog data (Jamendo, Audius and iTunes catalog records).</li>
+<li><strong>Legitimately retained:</strong> deletion-request correspondence for up to 12 months after completion (proof that the request was received and properly handled, dispute resolution, and legal record-keeping); operational server logs containing only token-hash fingerprints (never raw purchase tokens); and Play-side subscription and purchase records, which remain under Google's control and cannot be deleted by MeloTube.</li>
+<li>If you cannot access the app, email us at the address below to request account deletion; verified requests are processed within 30 days. The email route is only for users who cannot access the app.</li>
 </ul>
 
 <h2>8. Security</h2>
@@ -127,7 +129,7 @@
 <p>For privacy questions, data requests or deletion requests:</p>
 <ul>
 <li><strong>Developer:</strong> Zabidev</li>
-<li><strong>Email:</strong> <span style="background:#fef3c7;padding:2px 8px;border-radius:6px;">ffvspubg420@gmail.com</li>
+<li><strong>Email:</strong> ffvspubg420@gmail.com</li>
 </ul>
 
 <footer>MeloTube • Music for your vibe • © 2026 Zabidev. All rights reserved.</footer>
