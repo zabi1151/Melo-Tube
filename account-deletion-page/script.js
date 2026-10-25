@@ -1,113 +1,192 @@
-/* MeloTube — Account Deletion page logic.
- * Form submissions are delivered straight to the support inbox via
- * FormSubmit's AJAX endpoint. If online sending fails, a pre-filled
- * email (mailto) fallback is offered instead.
- */
+/* =========================================================
+   MeloTube — Account Deletion Request
+   FormSubmit Premium Presentation
+   ========================================================= */
 
 "use strict";
 
-var SUPPORT_EMAIL = "ffvspubg420@gmail.com";
-var FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/" + SUPPORT_EMAIL;
+const SUPPORT_EMAIL = "ffvspubg420@gmail.com";
+const FORMSUBMIT_ENDPOINT =
+  "https://formsubmit.co/ajax/" + SUPPORT_EMAIL;
 
 (function () {
-  // ------------------------------------------------------------
-  // DOM
-  // ------------------------------------------------------------
 
-  var directLink = document.getElementById("directEmailLink");
-  var form = document.getElementById("deletionForm");
-  var emailInput = document.getElementById("accountEmail");
-  var extraInput = document.getElementById("extraInfo");
-  var confirmBox = document.getElementById("confirmDelete");
-  var submitBtn = document.getElementById("submitBtn");
-  var emailError = document.getElementById("emailError");
-  var confirmError = document.getElementById("confirmError");
-  var formStatus = document.getElementById("formStatus");
-  var mailtoFallback = document.getElementById("mailtoFallback");
-  var fallbackMailto = document.getElementById("fallbackMailto");
+  /* ---------------- DOM ---------------- */
 
-  // ------------------------------------------------------------
-  // Direct support email link
-  // ------------------------------------------------------------
+  const form = document.getElementById("deletionForm");
+  const emailInput = document.getElementById("accountEmail");
+  const extraInput = document.getElementById("extraInfo");
+  const confirmBox = document.getElementById("confirmDelete");
+  const submitBtn = document.getElementById("submitBtn");
 
-  if (directLink) {
-    directLink.textContent = SUPPORT_EMAIL;
+  const emailError = document.getElementById("emailError");
+  const confirmError = document.getElementById("confirmError");
 
-    directLink.href =
+  const formStatus = document.getElementById("formStatus");
+
+  const mailtoFallback =
+    document.getElementById("mailtoFallback");
+
+  const fallbackMailto =
+    document.getElementById("fallbackMailto");
+
+  const directEmailLink =
+    document.getElementById("directEmailLink");
+
+
+  /* ---------------- Direct Email ---------------- */
+
+  if (directEmailLink) {
+
+    directEmailLink.textContent = SUPPORT_EMAIL;
+
+    directEmailLink.href =
       "mailto:" +
       SUPPORT_EMAIL +
       "?subject=" +
-      encodeURIComponent("MeloTube • Account Deletion Request");
+      encodeURIComponent(
+        "🎵 MeloTube • Account Deletion Request"
+      );
   }
 
-  // ------------------------------------------------------------
-  // Helpers
-  // ------------------------------------------------------------
 
-  function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+  /* ---------------- Helpers ---------------- */
+
+  function validEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+      .test(email.trim());
+
   }
 
-  function setStatus(type, message) {
+
+  function setStatus(type, text) {
+
     if (!formStatus) return;
 
     formStatus.hidden = false;
-    formStatus.className = "form-status show " + type;
-    formStatus.textContent = message;
+
+    formStatus.className =
+      "form-status show " + type;
+
+    formStatus.textContent = text;
+
   }
 
-  function makeRequestId() {
-    var now = new Date();
 
-    var year = now.getUTCFullYear();
-    var month = String(now.getUTCMonth() + 1).padStart(2, "0");
-    var day = String(now.getUTCDate()).padStart(2, "0");
+  /* ---------------- Request ID ---------------- */
 
-    var randomPart = Math.random()
-      .toString(36)
-      .slice(2, 8)
-      .toUpperCase();
+  function createRequestId() {
 
-    return "MT-" + year + month + day + "-" + randomPart;
+    const date = new Date();
+
+    const y = date.getUTCFullYear();
+
+    const m = String(
+      date.getUTCMonth() + 1
+    ).padStart(2, "0");
+
+    const d = String(
+      date.getUTCDate()
+    ).padStart(2, "0");
+
+    const random =
+      Math.random()
+        .toString(36)
+        .substring(2, 8)
+        .toUpperCase();
+
+    return `MT-${y}${m}${d}-${random}`;
+
   }
 
-  function getUtcTimestamp() {
+
+  /* ---------------- Timestamp ---------------- */
+
+  function getTimestamp() {
+
     return new Date()
       .toISOString()
       .replace("T", " ")
       .replace(/\.\d{3}Z$/, " UTC");
+
   }
 
-  // ------------------------------------------------------------
-  // Mail app fallback
-  // ------------------------------------------------------------
 
-  function buildMailto(requestId, submittedAt) {
-    var accountEmail = emailInput.value.trim();
+  /* ---------------- Mailto fallback ---------------- */
 
-    var additionalDetails =
-      extraInput.value.trim() || "No additional details provided";
+  function createFallbackMail(
+    requestId,
+    timestamp
+  ) {
 
-    var subject =
-      "MeloTube • Account Deletion Request • " + requestId;
+    const email =
+      emailInput.value.trim();
 
-    var lines = [
-      "MELOTUBE — ACCOUNT & DATA DELETION",
+    const details =
+      extraInput.value.trim() ||
+      "No additional details provided";
+
+    const subject =
+      `🎵 MeloTube • Account Deletion • ${requestId}`;
+
+    const message = [
+
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "🎵 MELOTUBE",
+      "ACCOUNT & DATA DELETION REQUEST",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+
       "",
-      "Request ID: " + requestId,
-      "Request Type: Account & Data Deletion",
-      "Account Email: " + accountEmail,
-      "Deletion Confirmation: Confirmed — user understands deletion is permanent",
-      "Additional Details: " + additionalDetails,
+
+      "✅ REQUEST RECEIVED",
+
       "",
-      "Application: MeloTube — Music for your vibe",
-      "Package ID: com.zabidev.melotube",
-      "Submitted At: " + submittedAt,
-      "Request Source: MeloTube Account Deletion Page",
+
+      `🎫 Request ID: ${requestId}`,
+      `📧 Account Email: ${email}`,
+
       "",
-      "IMPORTANT",
-      "This deletion request does not automatically cancel a Google Play subscription."
-    ];
+
+      "🛡️ Deletion Confirmation:",
+      "Confirmed — I understand that account deletion is permanent.",
+
+      "",
+
+      "💬 Additional Details:",
+      details,
+
+      "",
+
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "📱 APPLICATION INFORMATION",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+
+      "",
+
+      "🎵 App: MeloTube — Music for your vibe",
+      "📦 Package: com.zabidev.melotube",
+      `🕒 Submitted: ${timestamp}`,
+      "🌐 Source: MeloTube Account Deletion Page",
+
+      "",
+
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      "⚠️ IMPORTANT",
+      "━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+
+      "",
+
+      "• Ownership will be verified before deletion.",
+      "• Verified requests are processed within 30 days.",
+      "• Google Play subscriptions are NOT automatically cancelled.",
+
+      "",
+
+      "Thank you for using MeloTube ❤️"
+
+    ].join("\n");
+
 
     return (
       "mailto:" +
@@ -115,200 +194,314 @@ var FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/" + SUPPORT_EMAIL;
       "?subject=" +
       encodeURIComponent(subject) +
       "&body=" +
-      encodeURIComponent(lines.join("\n"))
+      encodeURIComponent(message)
     );
+
   }
 
-  // ------------------------------------------------------------
-  // Form submit
-  // ------------------------------------------------------------
+
+  /* ---------------- Form ---------------- */
 
   if (!form) return;
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
 
-    var valid = true;
+  form.addEventListener(
+    "submit",
+    async function (event) {
 
-    // ----------------------------------------------------------
-    // Email validation
-    // ----------------------------------------------------------
+      event.preventDefault();
 
-    if (!isValidEmail(emailInput.value)) {
-      emailError.hidden = false;
-      emailInput.setAttribute("aria-invalid", "true");
-      valid = false;
-    } else {
-      emailError.hidden = true;
-      emailInput.removeAttribute("aria-invalid");
-    }
 
-    // ----------------------------------------------------------
-    // Permanent deletion confirmation
-    // ----------------------------------------------------------
+      /* ========== Validation ========== */
 
-    if (!confirmBox.checked) {
-      confirmError.hidden = false;
-      valid = false;
-    } else {
-      confirmError.hidden = true;
-    }
+      let valid = true;
 
-    if (!valid) {
-      return;
-    }
 
-    // ----------------------------------------------------------
-    // Honeypot anti-spam protection
-    // ----------------------------------------------------------
+      if (!validEmail(emailInput.value)) {
 
-    var honeypot = document.getElementById("honeypot");
+        emailError.hidden = false;
 
-    if (honeypot && honeypot.value) {
-      return;
-    }
+        emailInput.setAttribute(
+          "aria-invalid",
+          "true"
+        );
 
-    // ----------------------------------------------------------
-    // Request metadata
-    // ----------------------------------------------------------
+        valid = false;
 
-    var requestId = makeRequestId();
-    var submittedAt = getUtcTimestamp();
+      } else {
 
-    var accountEmail = emailInput.value.trim();
+        emailError.hidden = true;
 
-    var additionalDetails =
-      extraInput.value.trim() || "No additional details provided";
+        emailInput.removeAttribute(
+          "aria-invalid"
+        );
 
-    // ----------------------------------------------------------
-    // FormSubmit payload
-    // ----------------------------------------------------------
+      }
 
-    var payload = {
-      _subject:
-        "MeloTube • Account Deletion Request • " + requestId,
 
-      _template: "box",
+      if (!confirmBox.checked) {
 
-      _captcha: "false",
+        confirmError.hidden = false;
 
-      _replyto: accountEmail,
+        valid = false;
 
-      "Request ID": requestId,
+      } else {
 
-      "Request Type":
-        "ACCOUNT & DATA DELETION",
+        confirmError.hidden = true;
 
-      "Account Email":
-        accountEmail,
+      }
 
-      "Deletion Confirmation":
-        "✓ Confirmed — user understands deletion is permanent",
 
-      "Additional Details":
-        additionalDetails,
+      if (!valid) return;
 
-      "Application":
-        "MeloTube — Music for your vibe",
 
-      "Package ID":
-        "com.zabidev.melotube",
+      /* ========== Honeypot ========== */
 
-      "Submitted At":
-        submittedAt,
+      const honeypot =
+        document.getElementById("honeypot");
 
-      "Request Source":
-        "MeloTube Account Deletion Page"
-    };
+      if (
+        honeypot &&
+        honeypot.value.trim() !== ""
+      ) {
 
-    // ----------------------------------------------------------
-    // Sending state
-    // ----------------------------------------------------------
+        return;
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending…";
+      }
 
-    if (mailtoFallback) {
-      mailtoFallback.hidden = true;
-    }
 
-    setStatus(
-      "sending",
-      "Sending your deletion request…"
-    );
+      /* ========== Metadata ========== */
 
-    // ----------------------------------------------------------
-    // Send through FormSubmit
-    // ----------------------------------------------------------
+      const requestId =
+        createRequestId();
 
-    fetch(FORMSUBMIT_ENDPOINT, {
-      method: "POST",
+      const timestamp =
+        getTimestamp();
 
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
+      const accountEmail =
+        emailInput.value.trim();
 
-      body: JSON.stringify(payload)
-    })
+      const additionalDetails =
+        extraInput.value.trim() ||
+        "No additional details provided";
 
-      // --------------------------------------------------------
-      // Response
-      // --------------------------------------------------------
 
-      .then(function (response) {
+      /* =====================================================
+         FORMSUBMIT EMAIL PRESENTATION
+         ===================================================== */
+
+      const payload = {
+
+        /* FormSubmit configuration */
+
+        _subject:
+          `🎵 MeloTube • Deletion Request • ${requestId}`,
+
+        _template:
+          "box",
+
+        _captcha:
+          "false",
+
+        _replyto:
+          accountEmail,
+
+
+        /* ===============================================
+           Email content
+           =============================================== */
+
+
+        "🎵 MELOTUBE":
+          "Music for your vibe",
+
+
+        "━━━━━━━━ REQUEST STATUS ━━━━━━━━":
+          "✅ ACCOUNT DELETION REQUEST RECEIVED",
+
+
+        "🎫 Request ID":
+          requestId,
+
+
+        "📧 Account Email":
+          accountEmail,
+
+
+        "🛡️ Deletion Confirmation":
+          "✅ Confirmed — user understands deletion is permanent",
+
+
+        "💬 Additional Details":
+          additionalDetails,
+
+
+        "━━━━━━━━ APP INFORMATION ━━━━━━━━":
+          "MeloTube",
+
+
+        "🎧 Application":
+          "MeloTube — Music for your vibe",
+
+
+        "📦 Package ID":
+          "com.zabidev.melotube",
+
+
+        "🕒 Submitted At":
+          timestamp,
+
+
+        "🌐 Request Source":
+          "MeloTube Account Deletion Page",
+
+
+        "━━━━━━━━ PROCESSING ━━━━━━━━":
+          "Secure Account Deletion",
+
+
+        "🔐 Verification":
+          "Account ownership will be verified before processing",
+
+
+        "⏳ Processing Time":
+          "Verified deletion requests are processed within 30 days",
+
+
+        "⚠️ Google Play Subscription":
+          "This request does NOT automatically cancel an active Google Play subscription",
+
+
+        "━━━━━━━━ MELOTUBE ━━━━━━━━":
+          "❤️ Thank you for using MeloTube"
+
+      };
+
+
+      /* ========== Sending UI ========== */
+
+      submitBtn.disabled = true;
+
+      submitBtn.textContent =
+        "Sending request…";
+
+
+      if (mailtoFallback) {
+
+        mailtoFallback.hidden = true;
+
+      }
+
+
+      setStatus(
+        "sending",
+        "🎵 Sending your MeloTube deletion request…"
+      );
+
+
+      /* ========== Request ========== */
+
+      try {
+
+        const response =
+          await fetch(
+            FORMSUBMIT_ENDPOINT,
+            {
+
+              method: "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "application/json",
+
+                "Accept":
+                  "application/json"
+
+              },
+
+              body:
+                JSON.stringify(payload)
+
+            }
+          );
+
+
         if (!response.ok) {
-          throw new Error("HTTP " + response.status);
+
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+
         }
 
-        return response.json();
-      })
 
-      // --------------------------------------------------------
-      // Success
-      // --------------------------------------------------------
+        await response.json();
 
-      .then(function () {
+
+        /* ========== Success ========== */
+
         setStatus(
+
           "success",
-          "Request sent successfully. Reference: " +
-            requestId +
-            ". We'll verify ownership before deleting anything. " +
-            "Verified requests are processed within 30 days."
+
+          `✓ Request sent successfully! ` +
+          `Reference: ${requestId}. ` +
+          `We'll verify account ownership before deletion. ` +
+          `Verified requests are processed within 30 days.`
+
         );
+
 
         form.reset();
 
-        submitBtn.textContent =
-          "Send deletion request";
 
-        submitBtn.disabled = false;
-      })
+      } catch (error) {
 
-      // --------------------------------------------------------
-      // Failure / mail app fallback
-      // --------------------------------------------------------
 
-      .catch(function () {
+        /* ========== Failure ========== */
+
         setStatus(
+
           "error",
-          "Couldn't send online. Your request was NOT lost — " +
-            "use the button below to send it from your email app instead."
+
+          "Couldn't send the request online. " +
+          "You can send the prepared request " +
+          "using your email app instead."
+
         );
 
+
         if (fallbackMailto) {
+
           fallbackMailto.href =
-            buildMailto(requestId, submittedAt);
+            createFallbackMail(
+              requestId,
+              timestamp
+            );
+
         }
 
+
         if (mailtoFallback) {
+
           mailtoFallback.hidden = false;
+
         }
+
+
+      } finally {
+
+
+        submitBtn.disabled = false;
 
         submitBtn.textContent =
           "Send deletion request";
 
-        submitBtn.disabled = false;
-      });
-  });
+
+      }
+
+    }
+  );
+
 })();
